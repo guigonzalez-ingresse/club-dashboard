@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { mockBenefits, getBenefitIcon } from '../../utils/mockData';
 import Card from '../common/Card';
 import Badge from '../common/Badge';
@@ -7,6 +8,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function BenefitsList() {
   const [expandedBenefit, setExpandedBenefit] = useState<string | null>(null);
+  const navigate = useNavigate();
   
   const toggleBenefit = (id: string) => {
     if (expandedBenefit === id) {
@@ -26,6 +28,16 @@ export default function BenefitsList() {
         return 'Utilizado';
       default:
         return status;
+    }
+  };
+
+  const handleUseBenefit = (benefitId: string) => {
+    // Se for o benefício de desconto em ingressos, navegar para a página de eventos
+    if (benefitId === '2') {
+      navigate('/discount-events');
+    } else {
+      // Para outros benefícios, implementar lógica específica
+      console.log('Usando benefício:', benefitId);
     }
   };
   
@@ -71,7 +83,14 @@ export default function BenefitsList() {
                   
                   {isExpanded && benefit.status === 'available' && benefit.usableNow && (
                     <div className="mt-4 animate-fadeIn">
-                      <Button variant="primary" size="sm">
+                      <Button 
+                        variant="primary" 
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleUseBenefit(benefit.id);
+                        }}
+                      >
                         Usar agora
                       </Button>
                     </div>

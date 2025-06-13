@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './hooks/useAuth';
 import MainLayout from './components/layout/MainLayout';
 import Dashboard from './components/dashboard/Dashboard';
 import SubscriptionManagement from './components/subscription/SubscriptionManagement';
+import DiscountEvents from './components/events/DiscountEvents';
 import LoginPage from './components/auth/LoginPage';
 import './index.css';
 
@@ -28,6 +29,7 @@ function AppContent() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="manage-subscription" element={<SubscriptionManagement />} />
+          <Route path="discount-events" element={<DiscountEvents />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
