@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { Bell, Menu, X, LogOut, User, Settings } from 'lucide-react';
-import { mockUser, mockNotifications } from '../../utils/mockData';
+import { mockNotifications } from '../../utils/mockData';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import Button from '../common/Button';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
   
   const unreadNotifications = mockNotifications.filter(n => !n.read).length;
+  
+  const handleLogout = () => {
+    logout();
+  };
   
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -72,16 +78,16 @@ export default function Header() {
               >
                 <img
                   className="h-8 w-8 rounded-full"
-                  src={mockUser.avatar}
-                  alt={mockUser.name}
+                  src={user?.avatar}
+                  alt={user?.name}
                 />
               </button>
               
               {isProfileMenuOpen && (
                 <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-4 py-2 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-900">{mockUser.name}</p>
-                    <p className="text-xs text-gray-500">{mockUser.email}</p>
+                    <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
                   </div>
                   <a
                     href="#"
@@ -95,12 +101,12 @@ export default function Header() {
                   >
                     <Settings className="mr-2 h-4 w-4" /> Configurações
                   </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                   >
                     <LogOut className="mr-2 h-4 w-4" /> Sair
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -154,13 +160,13 @@ export default function Header() {
               <div className="flex-shrink-0">
                 <img
                   className="h-10 w-10 rounded-full"
-                  src={mockUser.avatar}
-                  alt={mockUser.name}
+                  src={user?.avatar}
+                  alt={user?.name}
                 />
               </div>
               <div className="ml-3">
-                <div className="text-base font-medium text-gray-800">{mockUser.name}</div>
-                <div className="text-sm font-medium text-gray-500">{mockUser.email}</div>
+                <div className="text-base font-medium text-gray-800">{user?.name}</div>
+                <div className="text-sm font-medium text-gray-500">{user?.email}</div>
               </div>
             </div>
             <div className="mt-3 space-y-1">
@@ -176,12 +182,12 @@ export default function Header() {
               >
                 Configurações
               </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+              <button
+                onClick={handleLogout}
+                className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
               >
                 Sair
-              </a>
+              </button>
             </div>
           </div>
         </div>

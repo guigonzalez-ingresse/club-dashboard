@@ -1,7 +1,9 @@
 import React from 'react';
-import { mockUser } from '../../utils/mockData';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function WelcomeMessage() {
+  const { user } = useAuth();
+  
   // Get current hour to personalize greeting
   const hour = new Date().getHours();
   let greeting = 'Bom dia';
@@ -15,7 +17,7 @@ export default function WelcomeMessage() {
   return (
     <div className="mb-8">
       <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-        {greeting}, {mockUser.name}!
+        {greeting}, {user?.name}!
       </h1>
       <p className="mt-2 text-sm text-gray-600">
         Bem-vindo ao Ingresse Club. Aqui você pode gerenciar seu plano e acessar seus benefícios exclusivos.
